@@ -103,13 +103,13 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4 ">
-      {!readonly && (
+      {/* {!readonly && (
         <DataTableToolbar
           table={table}
           filterColumnName={searchableColumn}
           filterableColumns={filters}
         />
-      )}
+      )} */}
 
       <h1 className="font-bold text-xl">{name}</h1>
 

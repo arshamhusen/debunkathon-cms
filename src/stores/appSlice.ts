@@ -314,7 +314,7 @@ const initialState: AppState = {
       source_url: "https://example.com",
       source_name: "example",
       reference_urls: ["https://example.com"],
-      score: 35,
+      score: 80,
       rating: "negative",
     },
     {
@@ -329,7 +329,7 @@ const initialState: AppState = {
       source_url: "https://example.com",
       source_name: "example",
       reference_urls: ["https://example.com"],
-      score: 35,
+      score: 99,
       rating: "negative",
     },
     {

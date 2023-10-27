@@ -27,7 +27,7 @@ export function MainNav({
       ))}
 
       <img
-        src="/pi_icon.png"
+        src="@/assets/images/logo.jpg"
         alt="Logo"
         className="block lg:hidden py-2 w-20"
       />

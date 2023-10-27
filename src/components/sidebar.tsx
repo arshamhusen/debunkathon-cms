@@ -20,12 +20,18 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
     <nav
       className={cn(
         collapsed ? "items-center w-20" : "items-start w-64",
-        "hidden  lg:flex space-x-2  h-full min-h-screen lg:flex-col lg:justify-start border-r   lg:space-x-0 lg:space-y-2",
+        "hidden  lg:flex space-x-2  h-full px-2 min-h-screen lg:flex-col lg:justify-start border-r   lg:space-x-0 lg:space-y-2",
         className
       )}
       {...props}
     >
-      <img src="/.png" alt=" Logo" className="py-2" />
+      <div className="py-2 rounded-md">
+        <img
+          src="/logo.jpg"
+          alt=" Logo"
+          className=" w-full h-full aspect-square bg-cover"
+        />
+      </div>
       <div className="nav-items">
         {items.map((item) => (
           <NavLink
