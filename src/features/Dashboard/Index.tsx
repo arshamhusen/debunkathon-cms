@@ -111,6 +111,7 @@ export default function Dashboard() {
       <div className="dashboard">
         {/*@ts-ignore */}
         <DataTable
+          name="Recently Debunked"
           columns={columns}
           // @ts-ignore
           data={news}

@@ -51,14 +51,6 @@ const groups = [
         label: "All Stores",
         value: "all",
       },
-      {
-        label: "PI Networks",
-        value: "pinetworks",
-      },
-      {
-        label: "Redwave",
-        value: "redwave",
-      },
     ],
   },
 ];

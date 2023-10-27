@@ -31,7 +31,7 @@ export function MainNav({
 
       <img
         src="/pi_icon.png"
-        alt="PI Logo"
+        alt="Logo"
         className="block lg:hidden py-2 w-20"
       />
       <div className="hidden lg:block">

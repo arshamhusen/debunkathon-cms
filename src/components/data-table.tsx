@@ -41,6 +41,7 @@ interface DataTableProps<TData, TValue> {
 
 export function DataTable<TData, TValue>({
   columns,
+  name,
   data,
   filters,
   searchableColumn,
@@ -109,6 +110,9 @@ export function DataTable<TData, TValue>({
           filterableColumns={filters}
         />
       )}
+
+      <h1 className="font-bold text-xl">{name}</h1>
+
       <div className="rounded-md  border">
         <Table className="table">
           <TableHeader className="bg-accent ">

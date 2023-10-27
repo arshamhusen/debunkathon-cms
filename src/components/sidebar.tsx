@@ -25,7 +25,7 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
       )}
       {...props}
     >
-      <img src="/.png" alt="PI Logo" className="py-2" />
+      <img src="/.png" alt=" Logo" className="py-2" />
       <div className="nav-items">
         {items.map((item) => (
           <NavLink
