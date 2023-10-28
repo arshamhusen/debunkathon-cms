@@ -25,7 +25,7 @@ interface Fact {
 
 const verifyFact = (id: number) => {
   httpClient.put(`/facts/verify/${id}`).then((res) => {
-    console.log(res);
+    alert("Fact verified successfully");
   });
 };
 
