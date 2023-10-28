@@ -25,19 +25,14 @@ export interface User {
   updated_at: string;
   tenant_id: number;
   email: string;
+  designation: string;
   created_at: string;
 }
 export interface News {
-  id: string;
+  id: number;
   title: string;
-  description?: string;
-  created_at: string;
-  updated_at: string;
-  source_id: UUID;
-  is_active: boolean;
-  source_url: string;
-  source_name: string;
-  reference_urls: string[];
-  score: number;
-  rating: string;
+  description: string;
+  source: string;
+  createdAt: string;
+  updatedAt: string;
 }

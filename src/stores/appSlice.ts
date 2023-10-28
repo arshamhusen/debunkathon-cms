@@ -3,11 +3,10 @@ import { News, User } from "@/types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { UUID } from "crypto";
 
-// export const loadProfile = createAsyncThunk("app/loadProfile", async () => {
-//   console.log("loadProfile");
-//   const result = await httpClient.get("/users/profile");
-//   return result.data?.payload;
-// });
+export const loadArticles = createAsyncThunk("app", async () => {
+  const result = await httpClient.get("/articles/all");
+  return result.data;
+});
 
 interface AppState {
   loading: boolean;
@@ -489,7 +488,18 @@ export const authSlice = createSlice({
   name: "app",
   initialState,
   reducers: {},
-  extraReducers: (builder) => {},
+  extraReducers: (builder) => {
+    builder.addCase(loadArticles.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(loadArticles.fulfilled, (state, action) => {
+      state.loading = false;
+      state.news = action.payload;
+    });
+    builder.addCase(loadArticles.rejected, (state) => {
+      state.loading = false;
+    });
+  },
 });
 
 // Action creators are generated for each case reducer function

@@ -3,13 +3,16 @@ import { DataTableColumnHeader } from "@/components/data-table-column-header";
 import StatusCard from "@/components/status-card";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
+import httpClient from "@/lib/http-client";
 import { formatDate } from "@/lib/utils";
 import { useAppSelector } from "@/stores/hooks";
 import { News } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Dashboard() {
+  const [articles, setArticles] = useState<News[]>([]);
   const { news } = useAppSelector((state) => state.app);
 
   const columns: ColumnDef<News>[] = [
@@ -21,139 +24,69 @@ export default function Dashboard() {
       enableHiding: false,
     },
     {
-      id: "source_url",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Source" />
-      ),
-      cell: ({ row }) => (
-        <a
-          className="text-blue-500 hover:underline hover:text-blue-400 cursor-pointer"
-          href={row.getValue("source_url")}
-          target="_blank"
-        >
-          {JSON.stringify(row.getValue("source_url"))}
-        </a>
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
-    {
       accessorKey: "title",
-      accessorFn: (row) => {
-        row.title, row.description;
-      },
+      accessorFn: (row) => row.title,
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Title" />
       ),
       cell: ({ row }) => (
         <div className="title">
-          <span className="title block font-bold">{row.getValue("title")}</span>
+          <Link
+            className="text-blue-500 hover:underline"
+            to={`/news?title=${row.getValue("title")}`}
+          >
+            {row.getValue("title")}
+          </Link>
         </div>
       ),
       enableSorting: false,
       enableHiding: false,
     },
+    // {
+    //   accessorKey: "description",
+    //   accessorFn: (row) => row.description,
+    //   header: ({ column }) => (
+    //     <DataTableColumnHeader column={column} title="Description" />
+    //   ),
+    //   cell: ({ row }) => (
+    //     <div className="description">{row.getValue("description")}</div>
+    //   ),
+    //   enableSorting: false,
+    //   enableHiding: false,
+    // },
     {
-      accessorKey: "reference_urls",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="References" />
-      ),
-      cell: ({ row }) => (
-        <div className="title ">
-          <span className="title block font-bold">
-            {/* @ts-ignore */}
-            {row.getValue("reference_urls")?.length || 0}
-          </span>
-        </div>
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
-    {
-      id: "score",
-      accessorKey: "score",
-      accessorFn: (row) => row.score,
-      enableSorting: false,
-      enableHiding: false,
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Score" />
-      ),
-      cell: ({ row }) => {
-        const value = row.getValue("score") as number;
-        let color = "bg-red-400";
-        switch (value) {
-          // @ts-ignore
-          case value < 25:
-            color = "bg-blue-400";
-            break;
-          // @ts-ignore
-          case value < 50:
-            color = "bg-pink-400";
-            break;
-          // @ts-ignore
-          case value < 75:
-            color = "bg-yellow-400";
-            break;
-          // @ts-ignore
-          case value < 75:
-            color = "bg-green-400";
-            break;
-        }
-
-        return (
-          <>
-            <Badge className={color}>{value}</Badge>
-          </>
-        );
-      },
-    },
-    {
-      id: "rating",
-      accessorKey: "rating",
-      accessorFn: (row) => row.rating,
-      enableSorting: false,
-      enableHiding: false,
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Rating" />
-      ),
-      cell: ({ row }) => (
-        <Badge
-          variant="secondary"
-          className={
-            row.getValue("rating") === "positive"
-              ? "bg-[#34D399] bg-opacity-[0.15] text-[#18A16F] hover:bg-[#34D399] hover:text-white hover:cursor-pointer"
-              : "bg-red-400 bg-opacity-[0.15] text-red-400 hover:bg-red-400 hover:text-white hover:cursor-pointer"
-          }
-        >
-          {row.getValue("rating")}
-        </Badge>
-      ),
-    },
-    {
-      accessorKey: "created_at",
+      accessorKey: "createdAt",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Created At" />
       ),
       cell: ({ row }) => (
-        <div className="date">{formatDate(row.getValue("created_at"))}</div>
+        <div className="date">{formatDate(row.getValue("createdAt"))}</div>
       ),
       enableSorting: false,
       enableHiding: false,
     },
     {
-      accessorKey: "updated_at",
+      accessorKey: "updatedAt",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Updated At" />
       ),
       cell: ({ row }) => (
-        <div className="date">{formatDate(row.getValue("updated_at"))}</div>
+        <div className="date">{formatDate(row.getValue("updatedAt"))}</div>
       ),
       enableSorting: false,
       enableHiding: false,
     },
   ];
 
-  useEffect(() => {}, []);
+  const loadNews = () => {
+    httpClient.get("/articles/all").then((res) => {
+      setArticles(res.data);
+    });
+  };
+
+  useEffect(() => {
+    loadNews();
+  }, []);
 
   return (
     <>
@@ -171,7 +104,7 @@ export default function Dashboard() {
             name="Recently Debunked"
             columns={columns}
             // @ts-ignore
-            data={news}
+            data={articles}
           />
         </div>
       </div>

@@ -23,7 +23,16 @@ interface AuthStoreState {
 }
 
 const initialState: AuthStoreState = {
-  user: null,
+  user: {
+    id: 0,
+    name: "Nihan Ali",
+    is_active: false,
+    updated_at: "",
+    tenant_id: 0,
+    email: "nihan@company.com",
+    created_at: "",
+    designation: "Moderator",
+  },
   loading: false,
   token: "hello_token",
 };

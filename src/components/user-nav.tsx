@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 export function UserNav() {
   const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
 
   const onLogout = () => {
@@ -27,10 +28,11 @@ export function UserNav() {
             <AvatarImage src="/avatars/01.png" alt="@shadcn" />
             <AvatarFallback>N/A</AvatarFallback>
           </Avatar>
-          {/* <p className=" px-3 leading-none text-start text-muted-foreground">
+          <p className=" px-3 leading-none text-start text-muted-foreground">
             <span className="block text-sm">{user?.name ?? user?.name}</span>
             <span className="block text-xs">{user?.email}</span>
-          </p> */}
+            <span className="block text-xs">{user?.designation}</span>
+          </p>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>

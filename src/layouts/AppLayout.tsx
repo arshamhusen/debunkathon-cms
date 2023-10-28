@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { appConfig } from "@/configs/app.config";
 import { MainNav } from "@/components/navbar";
 import { motion } from "framer-motion";
-import {} from "@/stores/appSlice";
+// import { loadArticles } from "@/stores/appSlice";
 
 export default function AppLayout() {
   const dispatch = useAppDispatch();
@@ -21,11 +21,10 @@ export default function AppLayout() {
 
   useEffect(() => {
     // if (token) {
-    //   dispatch(loadProfile());
+    //   // dispatch(loadArticles());
     // } else {
     //   console.log("no token found. redirecting to login");
     //   navigate("/auth/login");
-    //   ``;
     // }
 
     console.log("AppLayout mounted");

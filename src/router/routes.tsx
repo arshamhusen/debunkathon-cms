@@ -4,6 +4,9 @@ import Dashboard from "@/features/Dashboard/Index";
 import AppLayout from "@/layouts/AppLayout";
 import LoginView from "@/features/Auth/Views/LoginView";
 import { useAppSelector } from "@/stores/hooks";
+import { SubmitFact } from "@/features/Fact/SubmitFact";
+import FactDetails from "@/features/Fact/FactDetails";
+import FactsIndex from "@/features/Fact/Index";
 
 function routeGuardMiddleware(route) {
   const navigate = useNavigate();
@@ -31,7 +34,19 @@ const router = createBrowserRouter([
         path: "/",
         Component: Dashboard,
       },
+      {
+        path: "/news",
+        Component: FactDetails,
+      },
+      {
+        path: "/facts",
+        Component: FactsIndex,
+      },
     ],
+  },
+  {
+    path: "/fact-submit",
+    Component: SubmitFact,
   },
   {
     path: "/auth/login",

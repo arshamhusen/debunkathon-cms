@@ -8,7 +8,7 @@ const environment = {
     LogoutUrl: "http://localhost:3000/logout",
   },
   ResourceServer: {
-    Endpoint: "https://api-connected-apps.azure-api.net/asset-management",
+    Endpoint: "http://192.168.100.170:4000/api",
   },
   CurrentUrl: "http://localhost:3000/",
 };

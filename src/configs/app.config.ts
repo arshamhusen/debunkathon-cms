@@ -6,7 +6,8 @@ export const appConfig: AppConfig = {
   version: "1.0.0",
   sidebarLinks: [
     { label: "Dashboard", href: "/", icon: "dashboard" },
-    { label: "Debunkers", href: "/debunkers", icon: "debunkers" },
+    { label: "Facts", href: "/facts", icon: "debunkers" },
+    { label: "Comunities", href: "/communities", icon: "debunkers" },
   ],
   mainNavLinks: [],
 };
