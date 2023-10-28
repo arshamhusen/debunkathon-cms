@@ -13,7 +13,7 @@ interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
 
 export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
   //@ts-ignore
-  let [collapsed, setCollapsed] = useState(true);
+  let [collapsed, setCollapsed] = useState(false);
   const pathname = window.location.pathname;
 
   return (
@@ -25,14 +25,15 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
       )}
       {...props}
     >
-      <div className="py-2 rounded-md">
+      <div className="py-2 flex justify-center items-center space-x-4 rounded-md">
         <img
           src="/logo.jpg"
           alt=" Logo"
-          className=" w-full h-full aspect-square bg-cover"
+          className=" w-14 aspect-square bg-cover"
         />
+        <h1 className="font-bold text-lg">Debunker</h1>
       </div>
-      <div className="nav-items">
+      <div className="nav-items w-full">
         {items.map((item) => (
           <NavLink
             key={item.href}
@@ -43,7 +44,7 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
               pathname === item.href
                 ? "bg-muted hover:bg-muted"
                 : "hover:bg-transparent hover:underline",
-              "justify-center p-6 my-6 flex space-x-2"
+              "justify-start w-full p-6 my-6 flex space-x-2"
             )}
           >
             <Icon

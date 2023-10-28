@@ -21,30 +21,32 @@ export default function Dashboard() {
       enableHiding: false,
     },
     {
-      id: "source_name",
-      accessorKey: "source_name",
+      id: "source_url",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Source" />
+      ),
       cell: ({ row }) => (
-        <div className="title">
-          <a
-            className="text-blue-500 hover:underline hover:text-blue-400 cursor-pointer"
-            href={row.getValue("source_url")}
-            target="_blank"
-          >
-            {row.getValue("source_name")}
-          </a>
-        </div>
+        <a
+          className="text-blue-500 hover:underline hover:text-blue-400 cursor-pointer"
+          href={row.getValue("source_url")}
+          target="_blank"
+        >
+          {JSON.stringify(row.getValue("source_url"))}
+        </a>
       ),
       enableSorting: false,
       enableHiding: false,
     },
     {
       accessorKey: "title",
-      accessorFn: (row) => row.title,
+      accessorFn: (row) => {
+        row.title, row.description;
+      },
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Title" />
       ),
       cell: ({ row }) => (
-        <div className="title ">
+        <div className="title">
           <span className="title block font-bold">{row.getValue("title")}</span>
         </div>
       ),
