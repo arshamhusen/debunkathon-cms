@@ -69,6 +69,7 @@ type CreateAssetFormValues = z.infer<typeof createAssetFormSchema>;
 const defaultValues: Partial<CreateAssetFormValues> = {};
 
 export function SubmitFact() {
+  const [submitted, setSubmitted] = useState(false);
   const [data, setData] = useState();
   const form = useForm<CreateAssetFormValues>({
     resolver: zodResolver(createAssetFormSchema),
@@ -85,12 +86,18 @@ export function SubmitFact() {
     const verdict = formData.verdict === "true" ? true : false;
 
     // @ts-ignore
-    httpClient.post(`/articles/add-fact/${data.article.id}`, {
-      title: formData.title,
-      description: formData.description,
-      source: formData.source,
-      verdict: verdict,
-    });
+    httpClient
+      .post(`/articles/add-fact/${data.article.id}`, {
+        title: formData.title,
+        description: formData.description,
+        source: formData.source,
+        verdict: verdict,
+      })
+      .then((res) => {
+        console.log(res);
+        setSubmitted(true);
+        alert("Fact submitted successfully");
+      });
   }
 
   const GetFacts = () => {
@@ -106,7 +113,9 @@ export function SubmitFact() {
       })
       .then((res) => {
         console.log(res);
+
         setData(res.data);
+
         // form.setValue("title", res.data.title);
         // form.setValue("description", res.data.description);
         // form.setValue("source", res.data.source);
@@ -120,109 +129,120 @@ export function SubmitFact() {
   return (
     <div className="w-screen h-screen flex justify-center items-center bg-gradient-to-br from-orange-800 to-purple-800">
       <div className="form max-w-lg w-full rounded-xl  bg-white lg:p-10">
-        <h1 className="font-bold text-2xl py-4">Submit fact</h1>
+        {submitted ? (
+          <div>
+            <h1 className="font-bold text-2xl py-4">Thank you!</h1>
+            <p className="text-xl">
+              Your fact has been submitted and is pending approval.
+            </p>
+          </div>
+        ) : (
+          <div>
+            <h1 className="font-bold text-2xl py-4">Submit fact</h1>
 
-        <div className="flex items-start flex-col p-4 bg-slate-100 rounded-xl  justify-start space-y-2">
-          {/* @ts-ignore */}
-          <h1 className="text-xl font-bold">{data && data.article.title}</h1>
-          {/* @ts-ignore */}
-          <p>{data && data.article.description}</p>
-          {/* @ts-ignore */}
-          <a
-            target="_blank"
-            className="text-sm text-blue-500"
-            href={data?.article.source}
-          >
-            Read original article
-          </a>
-          {/* @ts-ignore */}
-        </div>
+            <div className="flex items-start flex-col p-4 bg-slate-100 rounded-xl  justify-start space-y-2">
+              {/* @ts-ignore */}
+              <h1 className="text-xl font-bold">
+                {data && data.article.title}
+              </h1>
+              {/* @ts-ignore */}
+              <p>{data && data.article.description}</p>
+              {/* @ts-ignore */}
+              <a
+                target="_blank"
+                className="text-sm text-blue-500"
+                href={data?.article.source}
+              >
+                Read original article
+              </a>
+              {/* @ts-ignore */}
+            </div>
 
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-4 h-full"
-          >
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Article title" {...field} />
-                  </FormControl>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-4 h-full"
+              >
+                <FormField
+                  control={form.control}
+                  name="title"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Article title" {...field} />
+                      </FormControl>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Description" {...field} />
-                  </FormControl>
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Description</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Description" {...field} />
+                      </FormControl>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="verdict"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Verdict</FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      className="flex flex-col space-y-1"
-                    >
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="true" />
-                        </FormControl>
-                        <FormLabel className="font-normal">True</FormLabel>
-                      </FormItem>
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="false" />
-                        </FormControl>
-                        <FormLabel className="font-normal">False</FormLabel>
-                      </FormItem>
-                    </RadioGroup>
-                  </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="verdict"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Verdict</FormLabel>
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                          className="flex flex-col space-y-1"
+                        >
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="true" />
+                            </FormControl>
+                            <FormLabel className="font-normal">True</FormLabel>
+                          </FormItem>
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="false" />
+                            </FormControl>
+                            <FormLabel className="font-normal">False</FormLabel>
+                          </FormItem>
+                        </RadioGroup>
+                      </FormControl>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="source"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Reference Source</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Add fact source" {...field} />
-                  </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="source"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Reference Source</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Add fact source" {...field} />
+                      </FormControl>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormDescription>
-              Please enter the information as accurate as possible. The
-              information you provide will be verified by our team. We
-              appreciate the time you take to submit this fact.
-            </FormDescription>
-            {/* <FormField
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormDescription>
+                  Please enter the information as accurate as possible. The
+                  information you provide will be verified by our team. We
+                  appreciate the time you take to submit this fact.
+                </FormDescription>
+                {/* <FormField
             control={form.control}
             name="location_id"
             render={({ field }) => (
@@ -300,35 +320,37 @@ export function SubmitFact() {
             )}
           /> */}
 
-            <div className="flex h-full items-end mt-auto justify-end">
-              <Button type="submit">
-                {loading && (
-                  <svg
-                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      stroke-width="4"
-                    ></circle>
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    ></path>
-                  </svg>
-                )}
-                Submit Fact
-              </Button>
-            </div>
-          </form>
-        </Form>
+                <div className="flex h-full items-end mt-auto justify-end">
+                  <Button type="submit">
+                    {loading && (
+                      <svg
+                        className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          stroke-width="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                      </svg>
+                    )}
+                    Submit Fact
+                  </Button>
+                </div>
+              </form>
+            </Form>
+          </div>
+        )}
       </div>
     </div>
   );

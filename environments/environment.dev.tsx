@@ -8,7 +8,7 @@ const environment = {
     LogoutUrl: "http://localhost:3000/logout",
   },
   ResourceServer: {
-    Endpoint: "http://192.168.100.170:4000/api",
+    Endpoint: "http://localhost:4000/api",
   },
   CurrentUrl: "http://localhost:3000/",
 };
